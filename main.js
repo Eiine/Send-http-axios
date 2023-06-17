@@ -69,14 +69,18 @@ function sendRequest() {
         return console.log("solo se puede guardar 5 peticiones");
        }
       let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
-      savedquery()
+      deleteQuery()
+      savedQuery()
     }else{
       let guardar= localStorage.setItem("peticiones",JSON.stringify([option]))
-      savedquery()
+      savedQuery()
     }
   }
+  let deleteQuery=()=>{
+    peticiones.innerHTML=""
+  }
 
-  let savedquery=()=>{
+  let savedQuery=()=>{
 
     //datos de la peticion guardados
     let  Dguardados= JSON.parse(localStorage.getItem("peticiones"))
@@ -87,4 +91,4 @@ function sendRequest() {
     });
   }
   }
-  savedquery()
+  savedQuery()
