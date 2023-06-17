@@ -66,6 +66,11 @@ function sendRequest() {
     
      if(saved){
       if (saved.length>=5) { 
+        Swal.fire({
+          icon: 'error',
+          title: 'solo se puede guardar 5 peticiones',
+          text: 'Intenta eliminar una peticion!'
+        })
         return console.log("solo se puede guardar 5 peticiones");
        }
       let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
