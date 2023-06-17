@@ -3,6 +3,8 @@
     let urlH = document.getElementById("url-input");
     let pathH = document.getElementById("path-input");
     let tokenH = document.getElementById("token-input");
+    let peticiones=document.getElementById("peticiones-saved")
+   
 //option recibe un objeto que puede tener token, method, entre otras cosas
 
 const send_http_axios=(data,option)=>{
@@ -10,8 +12,8 @@ const send_http_axios=(data,option)=>{
 
     axios({
         method: option.method,
-        url: `${option.url}${option.path}`,
-        data: data,
+        url: `${option.url}/${option.path}`,
+        data: option.data,
          headers: { 'Content-Type':'application/json',
          "authorization": option.token
       },
@@ -35,17 +37,16 @@ function sendRequest() {
     let url = urlH.value;
     let path = pathH.value;
     let token = tokenH.value;
-  
+    
     var option = {
       method: method,
-      url: url,
-      path: path,
+      url: url.replace(/\/$/, ""),
+      path: path.replace(/^\//, ""),
       token: token
     };
-  
     send_http_axios(data, option);
   }
-
+  
   let saveHttp=()=>{
 
     let data = dataH.value;
@@ -58,9 +59,32 @@ function sendRequest() {
       method: method,
       url: url,
       path: path,
-      token: token
+      token: token,
+      data:data
     };
-  
+     let saved=JSON.parse(localStorage.getItem("peticiones"))
     
-    let guardar= localStorage.setItem("peticiones",JSON.stringify(option))
+     if(saved){
+      if (saved.length>=5) { 
+        return console.log("solo se puede guardar 5 peticiones");
+       }
+      let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
+      savedquery()
+    }else{
+      let guardar= localStorage.setItem("peticiones",JSON.stringify([option]))
+      savedquery()
+    }
   }
+
+  let savedquery=()=>{
+
+    //datos de la peticion guardados
+    let  Dguardados= JSON.parse(localStorage.getItem("peticiones"))
+    if(Dguardados){
+    Dguardados.forEach(element => {
+      peticiones.innerHTML+=`<ul id="dato">${JSON.stringify(element)}<ul/>`
+      
+    });
+  }
+  }
+  savedquery()
