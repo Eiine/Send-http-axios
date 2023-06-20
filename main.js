@@ -4,24 +4,26 @@
     let pathH = document.getElementById("path-input");
     let tokenH = document.getElementById("token-input");
     let peticiones=document.getElementById("peticiones-saved")
-   
+    let show= document.getElementById("show")
+    let contact=document.getElementById("contact")
 //option recibe un objeto que puede tener token, method, entre otras cosas
 
 const send_http_axios=(data,option)=>{
-
-
-    axios({
+  
+  axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
         data: option.data,
-         headers: { 'Content-Type':'application/json',
+        headers: { 'Content-Type':'application/json',
          "authorization": option.token
       },
       })
         .then(response => {
           // Manejo de la respuesta exitosa
-          console.log({ response});
-          document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
+          console.log(response.data.message);
+            document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);  
+          
+          
         })
         .catch(error => {
           // Manejo del error
@@ -31,19 +33,20 @@ const send_http_axios=(data,option)=>{
             text: 'Revisa que los datos sean correctos!'
           })
         });
-}
-
-function sendRequest() {
+      }
+      
+let sendRequest=()=>{
     let data = dataH.value;
     let method = methodH.value;
     let url = urlH.value;
     let path = pathH.value;
     let token = tokenH.value;
     
-    var option = {
+    let option = {
       method: method,
       url: url.replace(/\/$/, ""),
       path: path.replace(/^\//, ""),
+      data:data,
       token: token
     };
     send_http_axios(data, option);
@@ -151,11 +154,55 @@ function sendRequest() {
       let contador=0
       Dguardados.forEach(element => {
        contador++
-       return peticiones.innerHTML+=`<ul id="dato-${contador}">${JSON.stringify(element)}<ul/>`
+       return peticiones.innerHTML+=`<li id="dato-${contador}">${JSON.stringify(element)}<li/>`
     });
       asigBoton()
     
   }
   }
+
+  const send_Visit_message=()=>{
+    let data={
+      visit:1,
+    }
+    
+    let option = {
+      method:"post",
+      url: "https://contol-de-mensajes-y-visitas.onrender.com".replace(/\/$/, ""),
+      //url:"http://localhost:3000/".replace(/\/$/, ""),
+      path: "api/message".replace(/^\//, ""),
+      data:data
+    };
+    
+
+    send_http_axios(data,option)
+  }
+  //boton para ocultar
+ show.addEventListener("click",()=>{
+  peticiones.classList.toggle("show")
+ })
+ //Envio de formulario
+ contact.addEventListener("submit",(e)=>{
+    e.preventDefault()
+    var formData = new FormData(e.target);
+      var name = formData.get("name");
+      var message = formData.get("message");
+    let data={
+      name:name,
+      message:message
+    }
+    console.log(data);
+    let option = {
+      method:"post",
+      url: "https://contol-de-mensajes-y-visitas.onrender.com".replace(/\/$/, ""),
+      //url:"http://localhost:3000/".replace(/\/$/, ""),
+      path: "api/message".replace(/^\//, ""),
+      data:data
+    };
+    
+
+    send_http_axios(data,option)
+ })
   
   savedQuery()
+  send_Visit_message()
