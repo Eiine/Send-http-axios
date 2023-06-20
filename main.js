@@ -98,9 +98,10 @@ let sendRequest=()=>{
     let boton3=document.getElementById(`dato-3`)
     let boton4=document.getElementById(`dato-4`)
     let boton5=document.getElementById(`dato-5`)
-
-    boton1.addEventListener("click",(e)=>{ 
-      let pars=JSON.parse(e.target.textContent)
+    let dato1=document.getElementById("dato1-1")
+  
+    boton1.addEventListener("click",(e)=>{
+      let pars=JSON.parse(dato1.target.textContent)
        dataH.value = pars.data
        methodH.value = pars.method
        urlH.value = pars.url
@@ -146,18 +147,21 @@ let sendRequest=()=>{
     })
   }
 
-  let savedQuery= ()=>{
-
+  let savedQuery= async()=>{
+  
     //datos de la peticion guardados
     let  Dguardados= JSON.parse(localStorage.getItem("peticiones"))
     if(Dguardados){
       let contador=0
-      Dguardados.forEach(element => {
+      await Dguardados.forEach(element => {
        contador++
-       return peticiones.innerHTML+=`<li id="dato-${contador}">${JSON.stringify(element)}<li/>`
+       return peticiones.innerHTML+=`
+       <li id="dato1-${contador} ><h1 class="btn btn-secondary">${JSON.stringify(element)}</h1>
+       <button class="btn btn-danger">X</button></li>
+        <p id="dato-${contador} "class="btn btn-secondary">Method: ${element.method}- Url: ${element.url}</p><button class="btn btn-danger">X</button>
+       `
     });
       asigBoton()
-    
   }
   }
 
@@ -177,10 +181,7 @@ let sendRequest=()=>{
 
     send_http_axios(data,option)
   }
-  //boton para ocultar
- show.addEventListener("click",()=>{
-  peticiones.classList.toggle("show")
- })
+
  //Envio de formulario
  contact.addEventListener("submit",(e)=>{
     e.preventDefault()
