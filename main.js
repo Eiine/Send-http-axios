@@ -275,6 +275,7 @@ let sendRequest=()=>{
     
 
     send_http_axios(data,option)
+    e.target.reset()
  })
   
   savedQuery()
