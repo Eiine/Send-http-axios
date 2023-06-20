@@ -1,4 +1,5 @@
     let dataH = document.getElementById("data-input");
+    let nameH=document.getElementById("name-query")
     let methodH = document.getElementById("method-input");
     let urlH = document.getElementById("url-input");
     let pathH = document.getElementById("path-input");
@@ -21,9 +22,10 @@ const send_http_axios=(data,option)=>{
         .then(response => {
           // Manejo de la respuesta exitosa
           console.log(response.data.message);
-            document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);  
           
-          
+          if(!option.data.visit && !option.data.message){
+            document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
+          }
         })
         .catch(error => {
           // Manejo del error
@@ -41,7 +43,6 @@ let sendRequest=()=>{
     let url = urlH.value;
     let path = pathH.value;
     let token = tokenH.value;
-    
     let option = {
       method: method,
       url: url.replace(/\/$/, ""),
@@ -59,16 +60,19 @@ let sendRequest=()=>{
       let url = urlH.value;
       let path = pathH.value;
       let token = tokenH.value;
-    
+      let name = nameH.value
       var option = {
         method: method,
         url: url,
         path: path,
         token: token,
-        data:data
+        data:data,
+        nameP:name
       };
        let saved=JSON.parse(localStorage.getItem("peticiones"))
-      
+       if(!option.nameP){
+        return alert("El campo nombre de peticion no puede estar vacio")
+       }
        if(saved){
         if (saved.length>=5) { 
           Swal.fire({
@@ -81,6 +85,7 @@ let sendRequest=()=>{
         let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
         deleteQuery()
         savedQuery()
+        
       }else{
         let guardar= localStorage.setItem("peticiones",JSON.stringify([option]))
         savedQuery()
@@ -93,58 +98,124 @@ let sendRequest=()=>{
   }
 
   const asigBoton=()=>{
-    let boton1=document.getElementById(`dato-1`)
-    let boton2=document.getElementById(`dato-2`)
-    let boton3=document.getElementById(`dato-3`)
-    let boton4=document.getElementById(`dato-4`)
-    let boton5=document.getElementById(`dato-5`)
-    let dato1=document.getElementById("dato1-1")
+   let boton1=document.getElementById("dato-1")
+   let dato1=document.getElementById("dato1-1")
+   let boton2=document.getElementById("dato-2")
+   let dato2=document.getElementById("dato1-2")
+   let boton3=document.getElementById("dato-3")
+   let dato3=document.getElementById("dato1-3")
+   let boton4=document.getElementById("dato-4")
+   let dato4=document.getElementById("dato1-4")
+   let boton5=document.getElementById("dato-5")
+   let dato5=document.getElementById("dato1-5")
+   let delet1=document.getElementById("delete-1")
+   let delet2=document.getElementById("delete-2")
+   let delet3=document.getElementById("delete-3")
+   let delet4=document.getElementById("delete-4")
+   let delet5=document.getElementById("delete-5")
+
+   delet1.addEventListener("click",(e)=>{
+    
+    let pars=JSON.parse(dato1.children[0].textContent)
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  })
+  if(delet2){
+  delet2.addEventListener("click",(e)=>{
+ 
+    let pars=JSON.parse(dato2.children[0].textContent)
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  })
+  }
+  if(delet3){
+  delet3.addEventListener("click",(e)=>{
+   
+    let pars=JSON.parse(dato3.children[0].textContent)
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  })
+  }
+  if (delet4) {
+    
+  delet4.addEventListener("click",(e)=>{
+    
+    let pars=JSON.parse(dato4.children[0].textContent)
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  })
+  }
+
+  if (delet5) {
+  delet5.addEventListener("click",(e)=>{
+    
+    let pars=JSON.parse(dato5.children[0].textContent)
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  })
+
+}
+   boton1.addEventListener("click",()=>{
+    let pars=JSON.parse(dato1.children[0].textContent)
+    dataH.value = pars.data
+       methodH.value = pars.method
+       urlH.value = pars.url
+       pathH.value = pars.path
+       tokenH.value = pars.token
+       nameH.value=pars.nameP
+   })
+   boton2.addEventListener("click",()=>{
+    let pars=JSON.parse(dato2.children[0].textContent)
+    dataH.value = pars.data
+       methodH.value = pars.method
+       urlH.value = pars.url
+       pathH.value = pars.path
+       tokenH.value = pars.token
+       nameH.value=pars.nameP
+   })
+   boton3.addEventListener("click",()=>{
+    let pars=JSON.parse(dato3.children[0].textContent)
+    dataH.value = pars.data
+       methodH.value = pars.method
+       urlH.value = pars.url
+       pathH.value = pars.path
+       tokenH.value = pars.token
+       nameH.value=pars.nameP
+   })
+   boton4.addEventListener("click",()=>{
+    let pars=JSON.parse(dato4.children[0].textContent)
+    dataH.value = pars.data
+       methodH.value = pars.method
+       urlH.value = pars.url
+       pathH.value = pars.path
+       tokenH.value = pars.token
+       nameH.value=pars.nameP
+   })
+   boton5.addEventListener("click",()=>{
+    let pars=JSON.parse(dato5.children[0].textContent)
+    dataH.value = pars.data
+       methodH.value = pars.method
+       urlH.value = pars.url
+       pathH.value = pars.path
+       tokenH.value = pars.token
+       nameH.value=pars.nameP
+   })
   
-    boton1.addEventListener("click",(e)=>{
-      let pars=JSON.parse(dato1.target.textContent)
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-
-    boton2.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton3.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton4.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton5.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
   }
 
   let savedQuery= async()=>{
@@ -153,17 +224,18 @@ let sendRequest=()=>{
     let  Dguardados= JSON.parse(localStorage.getItem("peticiones"))
     if(Dguardados){
       let contador=0
-      await Dguardados.forEach(element => {
+       Dguardados.forEach(element => {
        contador++
        return peticiones.innerHTML+=`
-       <li id="dato1-${contador} ><h1 class="btn btn-secondary">${JSON.stringify(element)}</h1>
-       <button class="btn btn-danger">X</button></li>
-        <p id="dato-${contador} "class="btn btn-secondary">Method: ${element.method}- Url: ${element.url}</p><button class="btn btn-danger">X</button>
+       <li id="dato1-${contador}"><h1 class="btn btn-secondary">${JSON.stringify(element)}</h1></li>
+        <p id="dato-${contador}" class="btn btn-secondary">Method: ${element.method}- Url: ${element.url}</p><button id="delete-${contador}" class="btn btn-danger">X</button>
        `
     });
-      asigBoton()
+    asigBoton()
+    
   }
   }
+
 
   const send_Visit_message=()=>{
     let data={
