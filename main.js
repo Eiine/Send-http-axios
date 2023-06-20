@@ -100,6 +100,7 @@ let sendRequest=()=>{
     let boton5=document.getElementById(`dato-5`)
 
     boton1.addEventListener("click",(e)=>{ 
+      console.log('aopsdjasopd')
       let pars=JSON.parse(e.target.textContent)
        dataH.value = pars.data
        methodH.value = pars.method
