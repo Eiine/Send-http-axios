@@ -70,8 +70,20 @@ let sendRequest=()=>{
         nameP:name
       };
        let saved=JSON.parse(localStorage.getItem("peticiones"))
+       let guardado=saved.filter((element)=>element.nameP == option.nameP)
+       if (guardado.length>=1){
+       return Swal.fire({
+          icon: 'error',
+          title: 'No puedes ingresar dos nombres de peticion iguales!',
+          text: 'Revisa que los datos sean correctos!'
+        })
+       }
        if(!option.nameP){
-        return alert("El campo nombre de peticion no puede estar vacio")
+        return Swal.fire({
+          icon: 'error',
+          title: 'El nombre de peticion no puede estar vacio!',
+          text: 'Revisa que los datos sean correctos!'
+        })
        }
        if(saved){
         if (saved.length>=5) { 
@@ -228,7 +240,7 @@ let sendRequest=()=>{
        contador++
        return peticiones.innerHTML+=`
        <li id="dato1-${contador}"><h1 class="btn btn-secondary">${JSON.stringify(element)}</h1></li>
-        <p id="dato-${contador}" class="btn btn-secondary">Method: ${element.method}- Url: ${element.url}</p><button id="delete-${contador}" class="btn btn-danger">X</button>
+        <p id="dato-${contador}" class="btn btn-secondary">Name: ${element.nameP}</p><button id="delete-${contador}" class="btn btn-danger">X</button>
        `
     });
     asigBoton()
@@ -275,6 +287,7 @@ let sendRequest=()=>{
     
 
     send_http_axios(data,option)
+    Swal.fire('Mensaje enviado muchas gracias! :3 ')
     e.target.reset()
  })
   
