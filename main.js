@@ -109,137 +109,26 @@ let sendRequest=()=>{
     peticiones.innerHTML=""
   }
 
-  const asigBoton=()=>{
-
-//    let boton1=document.getElementById("dato-1")
-//    let dato1=document.getElementById("dato1-1")
-//    let boton2=document.getElementById("dato-2")
-//    let dato2=document.getElementById("dato1-2")
-//    let boton3=document.getElementById("dato-3")
-//    let dato3=document.getElementById("dato1-3")
-//    let boton4=document.getElementById("dato-4")
-//    let dato4=document.getElementById("dato1-4")
-//    let boton5=document.getElementById("dato-5")
-//    let dato5=document.getElementById("dato1-5")
-//    let delet1=document.getElementById("delete-1")
-//    let delet2=document.getElementById("delete-2")
-//    let delet3=document.getElementById("delete-3")
-//    let delet4=document.getElementById("delete-4")
-//    let delet5=document.getElementById("delete-5")
-
-//    delet1.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato1.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   if(delet2){
-//   delet2.addEventListener("click",(e)=>{
  
-//     let pars=JSON.parse(dato2.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-//   if(delet3){
-//   delet3.addEventListener("click",(e)=>{
-   
-//     let pars=JSON.parse(dato3.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-//   if (delet4) {
-    
-//   delet4.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato4.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-
-//   if (delet5) {
-//   delet5.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato5.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-
-// }
-//    boton1.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato1.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton2.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato2.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton3.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato3.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton4.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato4.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton5.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato5.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-  
-  }
 
   const itemData=(e,element)=>{
   let pars=element
-  console.log(pars);
-          //  dataH.value = pars.data
-          //  methodH.value = pars.method
-          //  urlH.value = pars.url
-          //  pathH.value = pars.path
-          //  tokenH.value = pars.token
-          //  nameH.value=pars.nameP
+   
+           dataH.value = pars.data
+           methodH.value = pars.method
+           urlH.value = pars.url
+           pathH.value = pars.path
+           tokenH.value = pars.token
+           nameH.value=pars.nameP
+  }
+
+  const itemDelet=(e,element)=>{
+    let pars=element
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
   }
 
   let savedQuery= async()=>{
@@ -251,10 +140,9 @@ let sendRequest=()=>{
        Dguardados.forEach(element => {
        contador++
        return peticiones.innerHTML+=`
-        <p id="dato-${contador}"  onclick="itemData(event,${JSON.stringify(element)})" class="btn btn-secondary">Name: ${element.nameP}</p><button id="delete-${contador}" class="btn btn-danger">X</button>
+        <p id="dato-${contador}" onclick='itemData(event,${JSON.stringify(element)})' class="btn btn-secondary">Name: ${element.nameP}</p><button id="delete-${contador}" onclick='itemDelet(event,${JSON.stringify(element)})' class="btn btn-danger">X</button>
        `
     });
-    asigBoton()
     
   }
   }
