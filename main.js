@@ -7,7 +7,7 @@
     let peticiones=document.getElementById("peticiones-saved")
     let show= document.getElementById("show")
     let contact=document.getElementById("contact")
-//option recibe un objeto que puede tener token, method, entre otras cosas
+// Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
 const send_http_axios=(data,option)=>{
   
@@ -21,7 +21,7 @@ const send_http_axios=(data,option)=>{
       })
         .then(response => {
           // Manejo de la respuesta exitosa
-          console.log(response.data.message);
+          console.log(response.data.results);
           
           if(!option.data.visit && !option.data.message){
             document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
@@ -36,7 +36,7 @@ const send_http_axios=(data,option)=>{
           })
         });
       }
-      
+//Funcion que se encarga de enviar la peticion realizada en el front
 let sendRequest=()=>{
     let data = dataH.value;
     let method = methodH.value;
@@ -52,7 +52,7 @@ let sendRequest=()=>{
     };
     send_http_axios(data, option);
   }
-  
+//Funcion encargada de guardar las peticiones que el usuario seleccione
   let saveHttp=()=>{
       
       let data = dataH.value;
@@ -104,13 +104,11 @@ let sendRequest=()=>{
       }
 
   }
-
+//funcion encargada de eliminar de pantalla lasfunciones para dar espacio a otras
   let deleteQuery=()=>{
     peticiones.innerHTML=""
   }
-
- 
-
+//Fucnion encargada de reasignar los valores de una peticion guardada al form
   const itemData=(e,element)=>{
   let pars=element
    
@@ -121,7 +119,7 @@ let sendRequest=()=>{
            tokenH.value = pars.token
            nameH.value=pars.nameP
   }
-
+//Funcion encargada de eliminar de las peticiones guardadas los item que el usuario considere
   const itemDelet=(e,element)=>{
     let pars=element
     let dato=JSON.parse(localStorage.getItem("peticiones"))
@@ -130,7 +128,7 @@ let sendRequest=()=>{
     deleteQuery()
     savedQuery()
   }
-
+//Funcion encargada crear los objetos para seleccionar funciones y la asignacion de itemDelet, itmeData
   let savedQuery= async()=>{
   
     //datos de la peticion guardados
@@ -140,14 +138,14 @@ let sendRequest=()=>{
        Dguardados.forEach(element => {
        contador++
        return peticiones.innerHTML+=`
-        <p id="dato-${contador}" onclick='itemData(event,${JSON.stringify(element)})' class="btn btn-secondary">Name: ${element.nameP}</p><button id="delete-${contador}" onclick='itemDelet(event,${JSON.stringify(element)})' class="btn btn-danger">X</button>
+        <p onclick='itemData(event,${JSON.stringify(element)})' class="btn btn-secondary">Name: ${element.nameP}</p><button onclick='itemDelet(event,${JSON.stringify(element)})' class="btn btn-danger">X</button>
        `
     });
     
   }
   }
 
-
+//Funcion encargada de enviar las visitas a la pagina de control backend
   const send_Visit_message=()=>{
     let data={
       visit:1,
@@ -165,7 +163,7 @@ let sendRequest=()=>{
     send_http_axios(data,option)
   }
 
- //Envio de formulario
+ //Evento que envia los mensajes del formulario de contact al backend
  contact.addEventListener("submit",(e)=>{
     e.preventDefault()
     var formData = new FormData(e.target);
