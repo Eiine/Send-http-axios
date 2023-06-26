@@ -1,14 +1,26 @@
     let dataH = document.getElementById("data-input");
-    let nameH=document.getElementById("name-query")
+    let nameH = document.getElementById("name-query")
     let methodH = document.getElementById("method-input");
     let urlH = document.getElementById("url-input");
     let pathH = document.getElementById("path-input");
     let tokenH = document.getElementById("token-input");
-    let peticiones=document.getElementById("peticiones-saved")
-    let show= document.getElementById("show")
-    let contact=document.getElementById("contact")
+    let peticiones = document.getElementById("peticiones-saved")
+    let show = document.getElementById("show")
+    let contact = document.getElementById("contact")
+    let responseEmpty = document.getElementById("response-empty")
+    let responseLoader = document.getElementById("response-loader")
+    let responseContainer = document.getElementById("response-container")
 //option recibe un objeto que puede tener token, method, entre otras cosas
+const startLoading = () => {
+  responseContainer.innerHTML = "";
+  responseEmpty.classList.add('none');
+  responseLoader.classList.remove('none');
+}
+const endLoader = () => {
 
+  responseLoader.classList.add('none');
+
+}
 const send_http_axios=(data,option)=>{
   
   axios({
@@ -27,6 +39,7 @@ const send_http_axios=(data,option)=>{
             document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
           }
         })
+        .finally(() => { endLoader()})
         .catch(error => {
           // Manejo del error
           Swal.fire({
@@ -38,6 +51,8 @@ const send_http_axios=(data,option)=>{
       }
       
 let sendRequest=()=>{
+  console.log('hola')
+  startLoading()
     let data = dataH.value;
     let method = methodH.value;
     let url = urlH.value;
