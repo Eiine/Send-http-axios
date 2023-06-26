@@ -7,6 +7,7 @@
     let peticiones=document.getElementById("peticiones-saved")
     let show= document.getElementById("show")
     let contact=document.getElementById("contact")
+    let fileImput=document.getElementById("file-input")
 // Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
 const send_http_axios=(data,option)=>{
@@ -16,7 +17,8 @@ const send_http_axios=(data,option)=>{
         url: `${option.url}/${option.path}`,
         data: option.data,
         headers: { 'Content-Type':'application/json',
-         "authorization": option.token
+         "authorization": option.token,
+         'Content-Type': 'multipart/form-data'
       },
       })
         .then(response => {
@@ -38,16 +40,20 @@ const send_http_axios=(data,option)=>{
       }
 //Funcion que se encarga de enviar la peticion realizada en el front
 let sendRequest=()=>{
+
     let data = dataH.value;
     let method = methodH.value;
     let url = urlH.value;
     let path = pathH.value;
     let token = tokenH.value;
+    const formData = new FormData();
+      formData.append('archivo', form.files[0]);
+      formData.append('data', data);
     let option = {
       method: method,
       url: url.replace(/\/$/, ""),
       path: path.replace(/^\//, ""),
-      data:data,
+      data:formData,
       token: token
     };
     send_http_axios(data, option);
@@ -55,20 +61,27 @@ let sendRequest=()=>{
 //Funcion encargada de guardar las peticiones que el usuario seleccione
   let saveHttp=()=>{
       
+    
       let data = dataH.value;
       let method = methodH.value;
       let url = urlH.value;
       let path = pathH.value;
       let token = tokenH.value;
       let name = nameH.value
+
+      const formData = new FormData();
+      formData.append('archivo', fileImput.files[0]);
+      formData.append('data', data);
+      console.log(formData);
       var option = {
         method: method,
         url: url,
         path: path,
         token: token,
-        data:data,
-        nameP:name
+        data:formData,
+        nameP:name,
       };
+      
        let saved=JSON.parse(localStorage.getItem("peticiones"))
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
