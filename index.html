@@ -15,7 +15,7 @@
             </header>
         <section class="inputs_container">
            
-          <form  class="form">
+          <form  class="form" enctype="multipart/form-data">
             
                 <h2>Método</h2>
                 <select id="method-input" class="mb-2 form-select">
@@ -28,7 +28,8 @@
                 <input type="text" id="url-input" placeholder="URL Base" class="mb-2 form-control" value="https://pokeapi.co">
                 <input type="text" id="path-input" placeholder="Ruta" class="mb-2 form-control" value="/api/v2/pokemon/">
               
-             
+                <input type="file" id="file-input" name="file" placeholder="Agrega un archivo" class="mb-2 form-control">
+
                 <input type="text" id="token-input" placeholder="Token de autorización" class="mb-2 form-control">
              
                 <textarea id="data-input" rows="4" cols="50" placeholder="Datos" class="mb-2 form-control"></textarea>
@@ -41,15 +42,18 @@
         <div class="response_container ">
             <h2>Respuesta:</h3>
             <div class="response" >
+
                <div id="response-empty">
                 <img src="./rocket.png " class="" alt="">
                 <p>Envia una solicitud</p>
               </div> 
+
             <div id="response-loader" class="none">
                 <div class="loading">
                   <div class="loading-spinner"></div>
                 </div>
-              </div> 
+            </div> 
+            
                  <p id="response-container" class="response_pre"></p>
              </div>
         </div>

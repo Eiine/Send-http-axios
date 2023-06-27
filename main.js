@@ -17,23 +17,27 @@ const startLoading = () => {
   responseLoader.classList.remove('none');
 }
 const endLoader = () => {
+    let peticiones=document.getElementById("peticiones-saved")
+    let show= document.getElementById("show")
+    let contact=document.getElementById("contact")
+   
+// Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
   responseLoader.classList.add('none');
 
 }
 const send_http_axios=(data,option)=>{
-  
   axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
-        data: option.data,
-        headers: { 'Content-Type':'application/json',
-         "authorization": option.token
+        data: data,
+        headers: {
+         "authorization": option.token,
       },
       })
         .then(response => {
           // Manejo de la respuesta exitosa
-          console.log(response.data.message);
+          console.log(response.data.results);
           
           if(!option.data.visit && !option.data.message){
             document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
@@ -49,41 +53,68 @@ const send_http_axios=(data,option)=>{
           })
         });
       }
-      
-let sendRequest=()=>{
-  console.log('hola')
+//Funcion que se encarga de enviar la peticion realizada en el front
+let sendRequest = () => {
   startLoading()
-    let data = dataH.value;
-    let method = methodH.value;
-    let url = urlH.value;
-    let path = pathH.value;
-    let token = tokenH.value;
+  let data = dataH.value;
+  let method = methodH.value;
+  let url = urlH.value;
+  let path = pathH.value;
+  let token = tokenH.value;
+
+  let fileInput = document.getElementById('file-input');
+  let file = fileInput.files[0];
+  if (file) {
+    let fileData = new FormData();
+    fileData.append('file', file);
+    fileData.append('data', data);
+
     let option = {
       method: method,
-      url: url.replace(/\/$/, ""),
-      path: path.replace(/^\//, ""),
-      data:data,
+      url: url.replace(/\/$/, ''),
+      path: path.replace(/^\//, ''),
+      data: fileData,
       token: token
     };
-    send_http_axios(data, option);
+
+    send_http_axios(fileData, option);
+  } else {
+    let option = {
+      method: method,
+      url: url.replace(/\/$/, ''),
+      path: path.replace(/^\//, ''),
+      data: data,
+      token: token
+    };
+    console.log(option.data);
+    send_http_axios(option.data, option);
   }
-  
+};
+
+//Funcion encargada de guardar las peticiones que el usuario seleccione
   let saveHttp=()=>{
       
+    
       let data = dataH.value;
       let method = methodH.value;
       let url = urlH.value;
       let path = pathH.value;
       let token = tokenH.value;
       let name = nameH.value
+
+      const formData = new FormData();
+      formData.append('archivo', fileImput.files[0]);
+      formData.append('data', data);
+      console.log(formData);
       var option = {
         method: method,
         url: url,
         path: path,
         token: token,
-        data:data,
-        nameP:name
+        data:formData,
+        nameP:name,
       };
+      
        let saved=JSON.parse(localStorage.getItem("peticiones"))
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
@@ -119,144 +150,31 @@ let sendRequest=()=>{
       }
 
   }
-
+//funcion encargada de eliminar de pantalla lasfunciones para dar espacio a otras
   let deleteQuery=()=>{
     peticiones.innerHTML=""
   }
-
-  const asigBoton=()=>{
-
-//    let boton1=document.getElementById("dato-1")
-//    let dato1=document.getElementById("dato1-1")
-//    let boton2=document.getElementById("dato-2")
-//    let dato2=document.getElementById("dato1-2")
-//    let boton3=document.getElementById("dato-3")
-//    let dato3=document.getElementById("dato1-3")
-//    let boton4=document.getElementById("dato-4")
-//    let dato4=document.getElementById("dato1-4")
-//    let boton5=document.getElementById("dato-5")
-//    let dato5=document.getElementById("dato1-5")
-//    let delet1=document.getElementById("delete-1")
-//    let delet2=document.getElementById("delete-2")
-//    let delet3=document.getElementById("delete-3")
-//    let delet4=document.getElementById("delete-4")
-//    let delet5=document.getElementById("delete-5")
-
-//    delet1.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato1.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   if(delet2){
-//   delet2.addEventListener("click",(e)=>{
- 
-//     let pars=JSON.parse(dato2.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-//   if(delet3){
-//   delet3.addEventListener("click",(e)=>{
-   
-//     let pars=JSON.parse(dato3.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-//   if (delet4) {
-    
-//   delet4.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato4.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-//   }
-
-//   if (delet5) {
-//   delet5.addEventListener("click",(e)=>{
-    
-//     let pars=JSON.parse(dato5.children[0].textContent)
-//     let dato=JSON.parse(localStorage.getItem("peticiones"))
-//     let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
-//     let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
-//     deleteQuery()
-//     savedQuery()
-//   })
-
-// }
-//    boton1.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato1.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton2.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato2.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton3.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato3.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton4.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato4.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-//    boton5.addEventListener("click",()=>{
-//     let pars=JSON.parse(dato5.children[0].textContent)
-//     dataH.value = pars.data
-//        methodH.value = pars.method
-//        urlH.value = pars.url
-//        pathH.value = pars.path
-//        tokenH.value = pars.token
-//        nameH.value=pars.nameP
-//    })
-  
-  }
-
+//Fucnion encargada de reasignar los valores de una peticion guardada al form
   const itemData=(e,element)=>{
   let pars=element
-  console.log(pars);
-          //  dataH.value = pars.data
-          //  methodH.value = pars.method
-          //  urlH.value = pars.url
-          //  pathH.value = pars.path
-          //  tokenH.value = pars.token
-          //  nameH.value=pars.nameP
+   
+           dataH.value = pars.data
+           methodH.value = pars.method
+           urlH.value = pars.url
+           pathH.value = pars.path
+           tokenH.value = pars.token
+           nameH.value=pars.nameP
   }
-
+//Funcion encargada de eliminar de las peticiones guardadas los item que el usuario considere
+  const itemDelet=(e,element)=>{
+    let pars=element
+    let dato=JSON.parse(localStorage.getItem("peticiones"))
+    let eliminado=dato.filter((element)=>element.nameP !== pars.nameP)
+    let guardar= localStorage.setItem("peticiones",JSON.stringify(eliminado))
+    deleteQuery()
+    savedQuery()
+  }
+//Funcion encargada crear los objetos para seleccionar funciones y la asignacion de itemDelet, itmeData
   let savedQuery= async()=>{
   
     //datos de la peticion guardados
@@ -266,15 +184,14 @@ let sendRequest=()=>{
        Dguardados.forEach(element => {
        contador++
        return peticiones.innerHTML+=`
-        <p id="dato-${contador}"  onclick="itemData(event,${JSON.stringify(element)})" class="btn btn-secondary">Name: ${element.nameP}</p><button id="delete-${contador}" class="btn btn-danger">X</button>
+        <p onclick='itemData(event,${JSON.stringify(element)})' class="btn btn-secondary">Name: ${element.nameP}</p><button onclick='itemDelet(event,${JSON.stringify(element)})' class="btn btn-danger">X</button>
        `
     });
-    asigBoton()
     
   }
   }
 
-
+//Funcion encargada de enviar las visitas a la pagina de control backend
   const send_Visit_message=()=>{
     let data={
       visit:1,
@@ -292,7 +209,7 @@ let sendRequest=()=>{
     send_http_axios(data,option)
   }
 
- //Envio de formulario
+ //Evento que envia los mensajes del formulario de contact al backend
  contact.addEventListener("submit",(e)=>{
     e.preventDefault()
     var formData = new FormData(e.target);
@@ -318,4 +235,4 @@ let sendRequest=()=>{
  })
   
   savedQuery()
-  //send_Visit_message()
+  send_Visit_message()
