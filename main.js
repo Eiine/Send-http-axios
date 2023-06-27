@@ -7,18 +7,16 @@
     let peticiones=document.getElementById("peticiones-saved")
     let show= document.getElementById("show")
     let contact=document.getElementById("contact")
-    let fileImput=document.getElementById("file-input")
+   
 // Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
 const send_http_axios=(data,option)=>{
-  
   axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
-        data: option.data,
-        headers: { 'Content-Type':'application/json',
+        data: data,
+        headers: {
          "authorization": option.token,
-         'Content-Type': 'multipart/form-data'
       },
       })
         .then(response => {
@@ -39,25 +37,42 @@ const send_http_axios=(data,option)=>{
         });
       }
 //Funcion que se encarga de enviar la peticion realizada en el front
-let sendRequest=()=>{
+let sendRequest = () => {
+  let data = dataH.value;
+  let method = methodH.value;
+  let url = urlH.value;
+  let path = pathH.value;
+  let token = tokenH.value;
 
-    let data = dataH.value;
-    let method = methodH.value;
-    let url = urlH.value;
-    let path = pathH.value;
-    let token = tokenH.value;
-    const formData = new FormData();
-      formData.append('archivo', form.files[0]);
-      formData.append('data', data);
+  let fileInput = document.getElementById('file-input');
+  let file = fileInput.files[0];
+  if (file) {
+    let fileData = new FormData();
+    fileData.append('file', file);
+    fileData.append('data', data);
+
     let option = {
       method: method,
-      url: url.replace(/\/$/, ""),
-      path: path.replace(/^\//, ""),
-      data:formData,
+      url: url.replace(/\/$/, ''),
+      path: path.replace(/^\//, ''),
+      data: fileData,
       token: token
     };
-    send_http_axios(data, option);
+
+    send_http_axios(fileData, option);
+  } else {
+    let option = {
+      method: method,
+      url: url.replace(/\/$/, ''),
+      path: path.replace(/^\//, ''),
+      data: data,
+      token: token
+    };
+    console.log(option.data);
+    send_http_axios(option.data, option);
   }
+};
+
 //Funcion encargada de guardar las peticiones que el usuario seleccione
   let saveHttp=()=>{
       
@@ -202,4 +217,4 @@ let sendRequest=()=>{
  })
   
   savedQuery()
-  //send_Visit_message()
+  send_Visit_message()
