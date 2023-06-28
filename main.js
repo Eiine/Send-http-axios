@@ -94,7 +94,7 @@ let sendRequest = () => {
 //Funcion encargada de guardar las peticiones que el usuario seleccione
   let saveHttp=()=>{
       
-    
+    let fileInput=document.getElementById("file-input")
       let data = dataH.value;
       let method = methodH.value;
       let url = urlH.value;
@@ -103,9 +103,9 @@ let sendRequest = () => {
       let name = nameH.value
 
       const formData = new FormData();
-      formData.append('archivo', fileImput.files[0]);
+      formData.append('archivo', fileInput.files[0]);
       formData.append('data', data);
-      console.log(formData);
+
       var option = {
         method: method,
         url: url,
@@ -116,6 +116,7 @@ let sendRequest = () => {
       };
       
        let saved=JSON.parse(localStorage.getItem("peticiones"))
+       console.log(saved)
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
        return Swal.fire({
