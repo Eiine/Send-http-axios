@@ -16,6 +16,9 @@ const startLoading = () => {
   responseEmpty.classList.add('none');
   responseLoader.classList.remove('none');
 }
+const resetLoading = () => {
+  responseEmpty.classList.remove('none');
+}
 const endLoader = () => {
     let peticiones=document.getElementById("peticiones-saved")
     let show= document.getElementById("show")
@@ -46,11 +49,14 @@ const send_http_axios=(data,option)=>{
         .finally(() => { endLoader()})
         .catch(error => {
           // Manejo del error
+          resetLoading()
           Swal.fire({
-            icon: 'error',
-            title: 'Escribiste un dato de peticion erroneo revisa por favor',
-            text: 'Revisa que los datos sean correctos!'
-          })
+              icon: 'error',
+              title: 'Tu peticion fallo',
+              showConfirmButton: false,
+              timer: 1500,
+              confirmButtonColor: '#0d6efd',
+            })
         });
       }
 //Funcion que se encarga de enviar la peticion realizada en el front
@@ -116,29 +122,34 @@ let sendRequest = () => {
       };
       
        let saved=JSON.parse(localStorage.getItem("peticiones"))
-       console.log(saved)
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
        return Swal.fire({
           icon: 'error',
           title: 'No puedes ingresar dos nombres de peticion iguales!',
-          text: 'Revisa que los datos sean correctos!'
+          showConfirmButton: false,
+          timer: 1500,
+          confirmButtonColor: '#0d6efd',
         })
        }
        if(!option.nameP){
         return Swal.fire({
-          icon: 'error',
-          title: 'El nombre de peticion no puede estar vacio!',
-          text: 'Revisa que los datos sean correctos!'
-        })
+            icon: 'error',
+            title: 'El nombre de peticion no puede estar vacio!',
+            showConfirmButton: false,
+            timer: 1500,
+            confirmButtonColor: '#0d6efd',
+          })
        }
        if(saved){
         if (saved.length>=5) { 
           Swal.fire({
-            icon: 'error',
-            title: 'solo se puede guardar 5 peticiones',
-            text: 'Intenta eliminar una peticion!'
-          })
+              icon: 'error',
+              title: 'Solo se puede guardar 5 peticiones!',
+              showConfirmButton: false,
+              timer: 1500,
+              confirmButtonColor: '#0d6efd',
+            })
           return console.log("solo se puede guardar 5 peticiones");
          }
         let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
