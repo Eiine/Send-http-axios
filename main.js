@@ -1,22 +1,41 @@
     let dataH = document.getElementById("data-input");
-    let nameH=document.getElementById("name-query")
+    let nameH = document.getElementById("name-query")
     let methodH = document.getElementById("method-input");
     let urlH = document.getElementById("url-input");
     let pathH = document.getElementById("path-input");
     let tokenH = document.getElementById("token-input");
+    let peticiones = document.getElementById("peticiones-saved")
+    let show = document.getElementById("show")
+    let contact = document.getElementById("contact")
+    let responseEmpty = document.getElementById("response-empty")
+    let responseLoader = document.getElementById("response-loader")
+    let responseContainer = document.getElementById("response-container")
+//option recibe un objeto que puede tener token, method, entre otras cosas
+const startLoading = () => {
+  responseContainer.innerHTML = "";
+  responseEmpty.classList.add('none');
+  responseLoader.classList.remove('none');
+}
+const resetLoading = () => {
+  responseEmpty.classList.remove('none');
+}
+const endLoader = () => {
     let peticiones=document.getElementById("peticiones-saved")
     let show= document.getElementById("show")
     let contact=document.getElementById("contact")
    
 // Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
+  responseLoader.classList.add('none');
+
+}
 const send_http_axios=(data,option)=>{
   axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
         data: data,
         headers: {
-         "authorization": option.token,
+         "Authorization": option.token,
       },
       })
         .then(response => {
@@ -27,17 +46,22 @@ const send_http_axios=(data,option)=>{
             document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
           }
         })
+        .finally(() => { endLoader()})
         .catch(error => {
           // Manejo del error
+          resetLoading()
           Swal.fire({
-            icon: 'error',
-            title: 'Escribiste un dato de peticion erroneo revisa por favor',
-            text: 'Revisa que los datos sean correctos!'
-          })
+              icon: 'error',
+              title: 'Tu peticion fallo',
+              showConfirmButton: false,
+              timer: 1500,
+              confirmButtonColor: '#0d6efd',
+            })
         });
       }
 //Funcion que se encarga de enviar la peticion realizada en el front
 let sendRequest = () => {
+  startLoading()
   let data = dataH.value;
   let method = methodH.value;
   let url = urlH.value;
@@ -61,6 +85,7 @@ let sendRequest = () => {
 
     send_http_axios(fileData, option);
   } else {
+    let data = JSON.parse(dataH.value);
     let option = {
       method: method,
       url: url.replace(/\/$/, ''),
@@ -68,7 +93,6 @@ let sendRequest = () => {
       data: data,
       token: token
     };
-    console.log(option.data);
     send_http_axios(option.data, option);
   }
 };
@@ -103,23 +127,29 @@ let sendRequest = () => {
        return Swal.fire({
           icon: 'error',
           title: 'No puedes ingresar dos nombres de peticion iguales!',
-          text: 'Revisa que los datos sean correctos!'
+          showConfirmButton: false,
+          timer: 1500,
+          confirmButtonColor: '#0d6efd',
         })
        }
        if(!option.nameP){
         return Swal.fire({
-          icon: 'error',
-          title: 'El nombre de peticion no puede estar vacio!',
-          text: 'Revisa que los datos sean correctos!'
-        })
+            icon: 'error',
+            title: 'El nombre de peticion no puede estar vacio!',
+            showConfirmButton: false,
+            timer: 1500,
+            confirmButtonColor: '#0d6efd',
+          })
        }
        if(saved){
         if (saved.length>=5) { 
           Swal.fire({
-            icon: 'error',
-            title: 'solo se puede guardar 5 peticiones',
-            text: 'Intenta eliminar una peticion!'
-          })
+              icon: 'error',
+              title: 'Solo se puede guardar 5 peticiones!',
+              showConfirmButton: false,
+              timer: 1500,
+              confirmButtonColor: '#0d6efd',
+            })
           return console.log("solo se puede guardar 5 peticiones");
          }
         let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
