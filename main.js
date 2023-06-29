@@ -169,7 +169,7 @@ let sendRequest = () => {
 //Fucnion encargada de reasignar los valores de una peticion guardada al form
   const itemData=(e,element)=>{
   let pars=element
-   
+           
            dataH.value = pars.data
            methodH.value = pars.method
            urlH.value = pars.url

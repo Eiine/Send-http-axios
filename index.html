@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./asteroid.png">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Send-http-axios</title>
     
 </head>
 <body>
@@ -27,13 +28,9 @@
                 <input type="text" id="name-query" required placeholder="Nombre de la peticion" class="mb-2 form-control" value="pokemon api" >
                 <input type="text" id="url-input" placeholder="URL Base" class="mb-2 form-control" value="https://pokeapi.co">
                 <input type="text" id="path-input" placeholder="Ruta" class="mb-2 form-control" value="/api/v2/pokemon/">
-              
                 <input type="file" id="file-input" name="file" placeholder="Agrega un archivo" class="mb-2 form-control">
-
                 <input type="text" id="token-input" placeholder="Token de autorización" class="mb-2 form-control">
-             
                 <textarea id="data-input" rows="4" cols="50" placeholder="Datos" class="mb-2 form-control"></textarea>
-              
                 <button type="button" class="btn btn-primary btn-gradient mb-1" onclick="sendRequest()">Enviar solicitud</button>
                 <button type="button" class="btn btn-primary btn-gradient" onclick="saveHttp()">Guardar</button>
               
