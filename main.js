@@ -87,7 +87,7 @@ let sendRequest = () => {
       const formData = new FormData();
       formData.append('archivo', fileInput.files[0]);
       formData.append('data', data);
-      console.log(formData);
+      console.log(formData.get("data"));
       var option = {
         method: method,
         url: url,
@@ -96,7 +96,7 @@ let sendRequest = () => {
         data:formData.get("data"),
         nameP:name,
       };
-      console.log(option.data.get("data"));
+      
        let saved=JSON.parse(localStorage.getItem("peticiones"))
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
@@ -139,8 +139,8 @@ let sendRequest = () => {
 //Fucnion encargada de reasignar los valores de una peticion guardada al form
   const itemData=(e,element)=>{
   let pars=element
-   
-           dataH.value = JSON.stringify(pars.data)
+          
+           dataH.value = pars.data
            methodH.value = pars.method
            urlH.value = pars.url
            pathH.value = pars.path
