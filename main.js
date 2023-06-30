@@ -250,6 +250,8 @@ let sendRequest = () => {
   const findSharequery=()=>{
     
     let datos= window.location.search
+    if(datos !== ""){
+      console.log(datos);
     let dato2= new URLSearchParams(datos)
       
        dataH.value=dato2.get("data");
@@ -258,6 +260,7 @@ let sendRequest = () => {
        pathH.value=dato2.get("path");
        tokenH.value=dato2.get("token");
        nameH.value=dato2.get("name")
+    }
   }
 
   const Sharequery=()=>{
@@ -270,7 +273,7 @@ let sendRequest = () => {
       let token = tokenH.value;
       let name = nameH.value
    console.log(method);
-   let compartir=`${datos}/?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
+   let compartir=`${datos}?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
       console.log(compartir);
 
   }
