@@ -135,6 +135,7 @@ let sendRequest = () => {
       };
       
        let saved=JSON.parse(localStorage.getItem("peticiones"))
+       if (saved) {
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
        return Swal.fire({
@@ -168,7 +169,7 @@ let sendRequest = () => {
         let guardar= localStorage.setItem("peticiones",JSON.stringify([...saved,option]))
         deleteQuery()
         savedQuery()
-        
+       }
       }else{
         let guardar= localStorage.setItem("peticiones",JSON.stringify([option]))
         savedQuery()
