@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./asteroid.png">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Send-http-axios</title>
     
 </head>
 <body>
         <div class=" container">
             <header class="titulo">
+              <img class="asteroid" src="./asteroid.png" alt="">
                 <h1>Send-http-axios</h1>
             </header>
         <section class="inputs_container">
@@ -26,22 +28,30 @@
                 <input type="text" id="name-query" required placeholder="Nombre de la peticion" class="mb-2 form-control" value="pokemon api" >
                 <input type="text" id="url-input" placeholder="URL Base" class="mb-2 form-control" value="https://pokeapi.co">
                 <input type="text" id="path-input" placeholder="Ruta" class="mb-2 form-control" value="/api/v2/pokemon/">
-              
                 <input type="file" id="file-input" name="file" placeholder="Agrega un archivo" class="mb-2 form-control">
-
                 <input type="text" id="token-input" placeholder="Token de autorización" class="mb-2 form-control">
-             
                 <textarea id="data-input" rows="4" cols="50" placeholder="Datos" class="mb-2 form-control"></textarea>
-              
-                <button type="button" class="btn btn-primary mb-1" onclick="sendRequest()">Enviar solicitud</button>
-                <button type="button" class="btn btn-primary" onclick="saveHttp()">Guardar</button>
-              
+                <button type="button" class="btn btn-primary btn-gradient mb-1" onclick="sendRequest()">Enviar solicitud</button>
+                <button type="button" class="btn btn-primary btn-gradient" onclick="saveHttp()">Guardar</button>
+                <button type="button" class="btn btn-primary btn-gradient" onclick="Sharequery()">Compartir</button>
           </form>
        
         <div class="response_container ">
-            <h2>Respuesta del servidor:</h3>
-            <div class="response">
-                 <pre id="response-container" class="response_pre"></pre>
+            <h2>Respuesta:</h3>
+            <div class="response" >
+
+               <div id="response-empty">
+                <img src="./rocket.png " class="" alt="">
+                <p>Envia una solicitud</p>
+              </div> 
+
+            <div id="response-loader" class="none">
+                <div class="loading">
+                  <div class="loading-spinner"></div>
+                </div>
+            </div> 
+            
+                 <p id="response-container" class="response_pre"></p>
              </div>
         </div>
         </section>
@@ -51,17 +61,16 @@
             <ul id="peticiones-saved" class="mt-4 p-2 saved"></ul>
         </section>
         
-        <section>
-    
-            <form  id="contact" class="form" method="POST">
+        <section class="">
+            <h1>Contacto: </h1>
+            <form  id="contact" class="form-contact" method="POST">
             <input type="text" class="mb-2 form-control" id="name" name="name" required placeholder="Name">
             <textarea id="message" class="mb-2 form-control" placeholder="Mensaje" name="message" required></textarea>
         
             <input type="submit"  class="btn btn btn-primary"  value="Enviar">
           </form>
-        
-        <div class="recomendacion"><h1>Si tienes alguna sugerencia, ¡me encantaría escucharla!</h1></div>
           </section>
+          <div class="recommendation"><h1>Si tienes alguna sugerencia ¡me encantaría escucharla!</h1></div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.css" rel="stylesheet">
