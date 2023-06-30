@@ -33,7 +33,7 @@ const send_http_axios=(data,option)=>{
   axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
-        data: data,
+        data:{data},
         headers: {
          "Authorization": option.token,
       },
@@ -85,7 +85,7 @@ let sendRequest = () => {
 
     send_http_axios(fileData, option);
   } else {
-    let data = JSON.parse(dataH.value);
+    let data = dataH.value;
     let option = {
       method: method,
       url: url.replace(/\/$/, ''),
