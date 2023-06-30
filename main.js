@@ -33,7 +33,7 @@ const send_http_axios=(data,option)=>{
   axios({
         method: option.method,
         url: `${option.url}/${option.path}`,
-        data:{data},
+        data:JSON.parse(data),
         headers: {
          "Authorization": option.token,
       },
