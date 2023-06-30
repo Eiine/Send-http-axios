@@ -275,7 +275,7 @@ let sendRequest = () => {
    console.log(method);
    let compartir=`${datos}?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
       console.log(compartir);
-
+    navigator.clipboard.writeText(compartir)
   }
   
   savedQuery()
