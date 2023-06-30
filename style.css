@@ -15,7 +15,7 @@ body{
 }
 
 header{
-    padding: 30px;
+    padding: 25px;
 }
 .titulo img{
     width:100px;
@@ -104,7 +104,7 @@ form{
 .response{
     color:black;
     overflow:auto;
-    height:473px;
+    height:515px;
     display:flex;
     border: 3px rgb(133, 133, 133) solid;
     background: rgb(243,243,243);
@@ -136,7 +136,7 @@ form{
     color:black;
     padding:10px;
     max-width:95%;
-    max-height:400px;
+    max-height:500px;
 }
 .form{
     width:40%

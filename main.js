@@ -40,7 +40,6 @@ const send_http_axios=(data,option)=>{
       })
         .then(response => {
           // Manejo de la respuesta exitosa
-          console.log(response.data.results);
           
           if(!option.data.visit && !option.data.message){
             document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
@@ -111,7 +110,7 @@ let sendRequest = () => {
       const formData = new FormData();
       formData.append('archivo', fileInput.files[0]);
       formData.append('data', data);
-      console.log(formData.get("data"));
+
       var option = {
         method: method,
         url: url,
@@ -166,62 +165,6 @@ let sendRequest = () => {
   let deleteQuery=()=>{
     peticiones.innerHTML=""
   }
-<<<<<<< HEAD
-
-  const asigBoton=()=>{
-    let boton1=document.getElementById(`dato-1`)
-    let boton2=document.getElementById(`dato-2`)
-    let boton3=document.getElementById(`dato-3`)
-    let boton4=document.getElementById(`dato-4`)
-    let boton5=document.getElementById(`dato-5`)
-
-    boton1.addEventListener("click",(e)=>{ 
-      console.log('aopsdjasopd')
-      let pars=JSON.parse(e.target.textContent)
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-
-    boton2.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton3.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton4.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-    boton5.addEventListener("click",(e)=>{
-      let pars=JSON.parse(e.target.textContent)
-
-       dataH.value = pars.data
-       methodH.value = pars.method
-       urlH.value = pars.url
-       pathH.value = pars.path
-       tokenH.value = pars.token
-    })
-=======
 //Fucnion encargada de reasignar los valores de una peticion guardada al form
   const itemData=(e,element)=>{
   let pars=element
@@ -232,7 +175,6 @@ let sendRequest = () => {
            pathH.value = pars.path
            tokenH.value = pars.token
            nameH.value=pars.nameP
->>>>>>> cfd5340a4a069b209e310f28d1a7263f8480aafb
   }
 //Funcion encargada de eliminar de las peticiones guardadas los item que el usuario considere
   const itemDelet=(e,element)=>{
@@ -308,7 +250,7 @@ let sendRequest = () => {
     
     let datos= window.location.search
     if(datos !== ""){
-      console.log(datos);
+
     let dato2= new URLSearchParams(datos)
       
        dataH.value=dato2.get("data");
@@ -329,10 +271,15 @@ let sendRequest = () => {
       let path = pathH.value;
       let token = tokenH.value;
       let name = nameH.value
-   console.log(method);
-   let compartir=`${datos}?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
-      console.log(compartir);
-    navigator.clipboard.writeText(compartir)
+      let compartir=`${datos}?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
+      navigator.clipboard.writeText(compartir)
+      return Swal.fire({
+        icon: 'success',
+        title: 'Peticion copiada en portapapeles',
+        showConfirmButton: false,
+        timer: 1500,
+        confirmButtonColor: '#0d6efd',
+      })
   }
   
   savedQuery()
