@@ -245,6 +245,36 @@ let sendRequest = () => {
     Swal.fire('Mensaje enviado muchas gracias! :3 ')
     e.target.reset()
  })
+ 
+ //Funcion para compartir trabajon actual
+  const findSharequery=()=>{
+    
+    let datos= window.location.search
+    let dato2= new URLSearchParams(datos)
+      
+       dataH.value=dato2.get("data");
+       methodH.value=dato2.get("method");
+       urlH.value=dato2.get("url");
+       pathH.value=dato2.get("path");
+       tokenH.value=dato2.get("token");
+       nameH.value=dato2.get("name")
+  }
+
+  const Sharequery=()=>{
+    let datos=window.location.href
+      
+      let data = dataH.value;
+      let method = methodH.value;
+      let url = urlH.value;
+      let path = pathH.value;
+      let token = tokenH.value;
+      let name = nameH.value
+   console.log(method);
+   let compartir=`${datos}/?method=${method}&url=${url}&path=${path}&name=${encodeURIComponent(name)}&token=${token}&data=${encodeURIComponent(data)}&page=1&limit=10`
+      console.log(compartir);
+
+  }
   
   savedQuery()
   send_Visit_message()
+  findSharequery()
