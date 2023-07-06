@@ -49,7 +49,6 @@ const send_http_axios=(data,option)=>{
         .catch(error => {
           document.getElementById("response-container").textContent = JSON.stringify(error.response.data)
           // Manejo del error
-          console.log(error.response);
           Swal.fire({
               icon: 'error',
               title: 'Tu peticion fallo',
