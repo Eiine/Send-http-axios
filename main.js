@@ -47,8 +47,9 @@ const send_http_axios=(data,option)=>{
         })
         .finally(() => { endLoader()})
         .catch(error => {
+          document.getElementById("response-container").textContent = JSON.stringify(error.response.data)
           // Manejo del error
-          resetLoading()
+          console.log(error.response);
           Swal.fire({
               icon: 'error',
               title: 'Tu peticion fallo',
@@ -86,7 +87,6 @@ let sendRequest = () => {
   } else {
     let data = dataH.value;
     if (data){
-      console.log(data);
     let option = {
       method: method,
       url: url.replace(/\/$/, ''),
@@ -94,10 +94,10 @@ let sendRequest = () => {
       data: JSON.parse(data),
       token: token
     };
+    
     send_http_axios(option.data, option);
   }else{
     let data = dataH.value;
-    console.log(data);
     let option = {
       method: method,
       url: url.replace(/\/$/, ''),
