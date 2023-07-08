@@ -1,63 +1,73 @@
-    let dataH = document.getElementById("data-input");
-    let nameH = document.getElementById("name-query")
-    let methodH = document.getElementById("method-input");
-    let urlH = document.getElementById("url-input");
-    let pathH = document.getElementById("path-input");
-    let tokenH = document.getElementById("token-input");
-    let peticiones = document.getElementById("peticiones-saved")
-    let show = document.getElementById("show")
-    let contact = document.getElementById("contact")
-    let responseEmpty = document.getElementById("response-empty")
-    let responseLoader = document.getElementById("response-loader")
-    let responseContainer = document.getElementById("response-container")
+let dataH = document.getElementById("data-input");
+let nameH = document.getElementById("name-query")
+let methodH = document.getElementById("method-input");
+let urlH = document.getElementById("url-input");
+let pathH = document.getElementById("path-input");
+let tokenH = document.getElementById("token-input");
+let peticiones = document.getElementById("peticiones-saved")
+let show = document.getElementById("show")
+let contact = document.getElementById("contact")
+let responseEmpty = document.getElementById("response-empty")
+let responseLoader = document.getElementById("response-loader")
+let responseContainer = document.getElementById("response-container")
+let peticiones_input=document.getElementById("peticion-input")
+let response_id=document.getElementById("response-id")
+
 //option recibe un objeto que puede tener token, method, entre otras cosas
 const startLoading = () => {
-  responseContainer.innerHTML = "";
-  responseEmpty.classList.add('none');
-  responseLoader.classList.remove('none');
+responseContainer.innerHTML = "";
+responseEmpty.classList.add('none');
+responseLoader.classList.remove('none');
+response_id.classList.add('response-background');
 }
 const resetLoading = () => {
-  responseEmpty.classList.remove('none');
+responseEmpty.classList.remove('none');
 }
 const endLoader = () => {
-    let peticiones=document.getElementById("peticiones-saved")
-    let show= document.getElementById("show")
-    let contact=document.getElementById("contact")
-   
+let peticiones=document.getElementById("peticiones-saved")
+let show= document.getElementById("show")
+let contact=document.getElementById("contact")
+
 // Funcion principal, option recibe un objeto que puede tener token, method, entre otras cosas
 
-  responseLoader.classList.add('none');
+responseLoader.classList.add('none');
 
 }
+
+
 const send_http_axios=(data,option)=>{
   axios({
-        method: option.method,
-        url: `${option.url}/${option.path}`,
-        data:data,
-        headers: {
-         "Authorization": option.token,
-      },
+      method: option.method,
+      url: `${option.url}/${option.path}`,
+      data:data,
+      headers: {
+       "Authorization": option.token,
+    },
+    })
+      .then(response => {
+        // Manejo de la respuesta exitosa
+        
+        if(!option.data.visit && !option.data.message){
+          const data = new JSONFormatter(response.data)
+          document.getElementById("response-container").appendChild(data.render());
+        }
       })
-        .then(response => {
-          // Manejo de la respuesta exitosa
-          
-          if(!option.data.visit && !option.data.message){
-            document.getElementById("response-container").textContent = JSON.stringify(response.data, null, 2);
-          }
-        })
-        .finally(() => { endLoader()})
-        .catch(error => {
-          document.getElementById("response-container").textContent = JSON.stringify(error.response.data)
-          // Manejo del error
-          Swal.fire({
-              icon: 'error',
-              title: 'Tu peticion fallo',
-              showConfirmButton: false,
-              timer: 1500,
-              confirmButtonColor: '#0d6efd',
-            })
-        });
-      }
+      .finally(() => { endLoader()})
+      .catch(error => {
+        console.log(error)
+        const data = new JSONFormatter(error.response.data)
+        document.getElementById("response-container").appendChild(data.render());
+        // Manejo del error
+       
+        Swal.fire({
+            icon: 'error',
+            title: 'Tu peticion fallo',
+            showConfirmButton: false,
+            timer: 1500,
+            confirmButtonColor: '#0d6efd',
+          })
+      });
+    }
 //Funcion que se encarga de enviar la peticion realizada en el front
 let sendRequest = () => {
   startLoading()
@@ -134,6 +144,7 @@ let sendRequest = () => {
       };
       
        let saved=JSON.parse(localStorage.getItem("peticiones"))
+      
        if (saved) {
        let guardado=saved.filter((element)=>element.nameP == option.nameP)
        if (guardado.length>=1){
